@@ -1,0 +1,200 @@
+{
+    "metadata": {
+        "version": 2
+    },
+    "zaps": [
+        {
+            "id": 1,
+            "title": "Upload Jira Issue Attachment to Lokalise",
+            "nodes": {
+                "1": {
+                    "id": 1,
+                    "paused": true,
+                    "type_of": "read",
+                    "params": {
+                        "project": "10621",
+                        "status": "To do"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {
+                            "project": "Eric's Lokalise PoC Project"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 1,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": null,
+                    "root_id": null,
+                    "action": "issue",
+                    "selected_api": "JiraSoftwareCloudCLIAPI@2.24.5",
+                    "title": "Upload Jira Issue Attachment to Lokalise",
+                    "authentication_id": ""
+                },
+                "2": {
+                    "id": 2,
+                    "paused": true,
+                    "type_of": "search",
+                    "params": {
+                        "_zap_search_success_on_miss": "False",
+                        "summary": "",
+                        "key": "{{ 1__key }}"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {}
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 1,
+                    "root_id": 1,
+                    "action": "issue",
+                    "selected_api": "JiraSoftwareCloudCLIAPI@2.24.5",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "3": {
+                    "id": 3,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "trim_whitespace": "True",
+                        "iteration_start": "1",
+                        "iteration_limit": "500",
+                        "loop_values": {
+                            "fields_attachment_id": "{{ 2__fields__attachment[]id }}",
+                            "attachment_filename": "{{ 2__fields__attachment[]filename }}"
+                        }
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {}
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 2,
+                    "root_id": 1,
+                    "action": "loop_values_line_items",
+                    "selected_api": "ZapierLoopingCLIAPI@1.2.6",
+                    "title": null,
+                    "authentication_id": null
+                },
+                "4": {
+                    "id": 4,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "as_json": false,
+                        "json_key": "json",
+                        "unflatten": true,
+                        "url": "https://{{ your-domain }}.atlassian.net/rest/api/3/attachment/content/{{ 3__fields_attachment_id }}",
+                        "auth": "{user_email}|{Jira_API_Token}",
+                        "headers": {
+                            "content-type": "application/json"
+                        }
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": true
+                        },
+                        "parammap": {},
+                        "stepTitle": "GET in Webhooks by Zapier"
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 3,
+                    "root_id": 1,
+                    "action": "get",
+                    "selected_api": "WebHookAPI",
+                    "title": null,
+                    "authentication_id": null
+                },
+                "5": {
+                    "id": 5,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "url": "{{ 4__file }}"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": true
+                        },
+                        "parammap": {}
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 4,
+                    "root_id": 1,
+                    "action": "encodeUrl",
+                    "selected_api": "Base64EncoderDecoderCLIAPI@1.1.1",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "6": {
+                    "id": 6,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "project_id": "",
+                        "data": "{{ 5__result }}",
+                        "lang_iso": "",
+                        "filename": "{{ 3__attachment_filename }}"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {
+                            "project_id": "",
+                            "lang_iso": ""
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 5,
+                    "root_id": 1,
+                    "action": "upload_file",
+                    "selected_api": "LokaliseCLIAPI@1.1.0",
+                    "title": null,
+                    "authentication_id": ""
+                }
+            }
+        }
+    ]
+}
