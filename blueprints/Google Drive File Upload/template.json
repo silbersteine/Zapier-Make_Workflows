@@ -1,0 +1,410 @@
+{
+    "metadata": {
+        "version": 2
+    },
+    "zaps": [
+        {
+            "id": 1,
+            "title": "GDrive File Upload to Lokalise",
+            "nodes": {
+                "1": {
+                    "id": 1,
+                    "paused": false,
+                    "type_of": "read",
+                    "params": {
+                        "includeDeleted": "false",
+                        "drive": "",
+                        "folder": ""
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {
+                            "drive": "My Google Drive",
+                            "folder": "Zapier"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": null,
+                    "root_id": null,
+                    "action": "file_in_folder_v2",
+                    "selected_api": "GoogleDriveCLIAPI@1.8.3",
+                    "title": "GDrive File Upload to Lokalise",
+                    "authentication_id": ""
+                },
+                "2": {
+                    "id": 2,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "drive": "",
+                        "file_id": "{{1__id}}",
+                        "permission": "org_link_edit",
+                        "domain": ""
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {
+                            "drive": "My Google Drive"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 1,
+                    "root_id": 1,
+                    "action": "share_file",
+                    "selected_api": "GoogleDriveCLIAPI@1.8.3",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "3": {
+                    "id": 3,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "url": "{{1__file}}"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "parammap": {
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 2,
+                    "root_id": 1,
+                    "action": "encodeUrl",
+                    "selected_api": "Base64EncoderDecoderCLIAPI@1.1.1",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "4": {
+                    "id": 4,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 3,
+                    "root_id": 1,
+                    "action": "branch",
+                    "selected_api": "BranchingAPI",
+                    "title": null,
+                    "authentication_id": null
+                },
+                "5": {
+                    "id": 5,
+                    "paused": true,
+                    "type_of": "filter",
+                    "params": {
+                        "color": "Heroine Blue",
+                        "emoji": "A",
+                        "path_eval_index": 0,
+                        "filter_criteria": [
+                            {
+                                "id": 7875282822817019,
+                                "group": 6957701137885615,
+                                "key": "1__fileExtension",
+                                "value": "",
+                                "match": "iexist",
+                                "action": "continue"
+                            }
+                        ]
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "stepTitle": "File extensions docx, pptx, html, idml"
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 4,
+                    "root_id": 1,
+                    "action": "filter",
+                    "selected_api": "BranchingAPI",
+                    "title": "File extensions docx, pptx, html, idml",
+                    "authentication_id": null
+                },
+                "6": {
+                    "id": 6,
+                    "paused": true,
+                    "type_of": "filter",
+                    "params": {
+                        "color": "Peru",
+                        "emoji": "B",
+                        "filter_criteria": [
+                            {
+                                "id": 3511767872613119,
+                                "group": 2164040679140813,
+                                "key": "1__mimeType",
+                                "value": "google-apps",
+                                "match": "icontains",
+                                "action": "continue"
+                            }
+                        ],
+                        "path_eval_index": 1
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "stepTitle": "Google Docs and Google Slides"
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 4,
+                    "root_id": 1,
+                    "action": "filter",
+                    "selected_api": "BranchingAPI",
+                    "title": "Google Docs and Google Slides",
+                    "authentication_id": null
+                },
+                "7": {
+                    "id": 7,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 6,
+                    "root_id": 1,
+                    "action": "branch",
+                    "selected_api": "BranchingAPI",
+                    "title": null,
+                    "authentication_id": null
+                },
+                "8": {
+                    "id": 8,
+                    "paused": true,
+                    "type_of": "filter",
+                    "params": {
+                        "color": "Yellow Green",
+                        "emoji": "C",
+                        "filter_criteria": [
+                            {
+                                "id": 6299136604957267,
+                                "group": 5246199670184819,
+                                "key": "1__mimeType",
+                                "value": "document",
+                                "match": "icontains",
+                                "action": "continue"
+                            }
+                        ],
+                        "path_eval_index": 0
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "stepTitle": "Google Documents"
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 7,
+                    "root_id": 1,
+                    "action": "filter",
+                    "selected_api": "BranchingAPI",
+                    "title": "Google Documents",
+                    "authentication_id": null
+                },
+                "9": {
+                    "id": 9,
+                    "paused": true,
+                    "type_of": "filter",
+                    "params": {
+                        "color": "Dark Magenta",
+                        "emoji": "D",
+                        "path_eval_index": 1,
+                        "filter_criteria": [
+                            {
+                                "id": 7277379878477193,
+                                "group": 4249828573254197,
+                                "key": "1__mimeType",
+                                "value": "presentation",
+                                "match": "icontains",
+                                "action": "continue"
+                            }
+                        ]
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": false
+                        },
+                        "stepTitle": "Google Slides"
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 7,
+                    "root_id": 1,
+                    "action": "filter",
+                    "selected_api": "BranchingAPI",
+                    "title": "Google Slides",
+                    "authentication_id": null
+                },
+                "10": {
+                    "id": 10,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "project_id": "",
+                        "lang_iso": "en",
+                        "data": "{{3__result}}",
+                        "filename": "{{1__title}}.pptx"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": true
+                        },
+                        "parammap": {
+                            "project_id": "",
+                            "lang_iso": "en"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 9,
+                    "root_id": 1,
+                    "action": "upload_file",
+                    "selected_api": "LokaliseCLIAPI@1.1.0",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "11": {
+                    "id": 11,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "project_id": "8530821864d3e26c5cb2b9.72951273",
+                        "lang_iso": "en",
+                        "data": "{{3__result}}",
+                        "filename": "{{1__title}}.docx"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": true
+                        },
+                        "parammap": {
+                            "project_id": "Make.com Integration Doc-Type Project",
+                            "lang_iso": "en"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 8,
+                    "root_id": 1,
+                    "action": "upload_file",
+                    "selected_api": "LokaliseCLIAPI@1.1.0",
+                    "title": null,
+                    "authentication_id": ""
+                },
+                "12": {
+                    "id": 12,
+                    "paused": true,
+                    "type_of": "write",
+                    "params": {
+                        "project_id": "",
+                        "data": "{{3__result}}",
+                        "lang_iso": "en",
+                        "filename": "{{1__originalFilename}}"
+                    },
+                    "meta": {
+                        "$editor": {
+                            "has_automatic_issues": true
+                        },
+                        "parammap": {
+                            "project_id": "Make.com Integration Doc-Type Project",
+                            "lang_iso": "en"
+                        }
+                    },
+                    "triple_stores": {
+                        "copied_from": null,
+                        "created_by": null,
+                        "polling_interval_override": 0,
+                        "block_and_release_limit_override": 0,
+                        "spread_tasks": 1
+                    },
+                    "parent_id": 5,
+                    "root_id": 1,
+                    "action": "upload_file",
+                    "selected_api": "LokaliseCLIAPI@1.1.1",
+                    "title": null,
+                    "authentication_id": ""
+                }
+            }
+        }
+    ]
+}
